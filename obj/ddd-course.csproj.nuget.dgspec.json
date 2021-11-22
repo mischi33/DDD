@@ -1,0 +1,70 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/mweber/Documents/Projects/Private/ddd-course/ddd-course.csproj": {}
+  },
+  "projects": {
+    "/home/mweber/Documents/Projects/Private/ddd-course/ddd-course.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/mweber/Documents/Projects/Private/ddd-course/ddd-course.csproj",
+        "projectName": "ddd-course",
+        "projectPath": "/home/mweber/Documents/Projects/Private/ddd-course/ddd-course.csproj",
+        "packagesPath": "/home/mweber/.nuget/packages/",
+        "outputPath": "/home/mweber/Documents/Projects/Private/ddd-course/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/mweber/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "FluentAssertions": {
+              "target": "Package",
+              "version": "[6.2.0, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.4.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.100/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
