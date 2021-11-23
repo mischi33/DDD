@@ -8,4 +8,8 @@
   </PropertyGroup>
   <ItemGroup>
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NHibernate" Version="5.3.10"/>
+    <PackageReference Include="FluentNHibernate" Version="3.1.0"/>
+  </ItemGroup>
 </Project>

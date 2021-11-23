@@ -1,5 +1,21 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using DDDCourse.Logic;
+using FluentNHibernate.Cfg;
+using FluentNHibernate.Cfg.Db;
+using FluentNHibernate.Conventions;
+using FluentNHibernate.Conventions.AcceptanceCriteria;
+using FluentNHibernate.Conventions.Helpers;
+using FluentNHibernate.Conventions.Instances;
+using NHibernate;
+
+// Setup DB here and fetch snack machine
+Initer.init("@Server=.;Database=DDDDB;Trusted_Connection=true");
+SnackMachine snackMachine;
+using (ISession session = SessionFactory.OpenSession()) {
+    snackMachine = session.Get<SnackMachine>(1L);
+}
+
+// SnackMachine snackMachine = new SnackMachine();
 
 Console.WriteLine("** Hello, this is snackmachine. I offer the following snacks:");
 Console.WriteLine("** 1 Chocolate: 1.75$");
@@ -10,8 +26,6 @@ Console.WriteLine("** Type 'cent!1', 'cent!10' or 'cent!25' to insert coins");
 Console.WriteLine("** Type 'dollar!1', 'dollar!5' or 'dollar!20' to insert bills");
 Console.WriteLine("** Type 'buy![snacknumber]' to buy a snack");
 Console.WriteLine("** Type 'return!money' to return your inserted money.");
-
-SnackMachine snackMachine = new SnackMachine();
 
 var selectedSnack = "";
 while (true)
@@ -65,6 +79,12 @@ while (true)
         {
             if (snackMachine.MoneyInTransaction.Amount > 1.75m)
             {
+                using (ISession session = SessionFactory.OpenSession())
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    session.SaveOrUpdate(snackMachine);
+                    transaction.Commit();
+                }
                 selectedSnack = "Chocolate";
                 break;
             }
@@ -76,6 +96,12 @@ while (true)
         {
             if (snackMachine.MoneyInTransaction.Amount > 2.79m)
             {
+                using (ISession session = SessionFactory.OpenSession())
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    session.SaveOrUpdate(snackMachine);
+                    transaction.Commit();
+                }
                 selectedSnack = "Fanta";
                 break;
             }
@@ -87,6 +113,12 @@ while (true)
         {
             if (snackMachine.MoneyInTransaction.Amount > 1.85m)
             {
+                using (ISession session = SessionFactory.OpenSession())
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    session.SaveOrUpdate(snackMachine);
+                    transaction.Commit();
+                }
                 selectedSnack = "Smarties";
                 break;
             }

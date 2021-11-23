@@ -28,6 +28,8 @@ namespace DDDCourse.Logic
             }
         }
 
+        public Money() { }
+
         public Money(int oneCentCount, int tenCentCount, int quarterCount, int oneDollarCount, int fiveDollarCount, int twentyDollarCount)
         {
             if (oneCentCount < 0) throw new InvalidOperationException();
