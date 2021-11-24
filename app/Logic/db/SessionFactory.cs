@@ -6,7 +6,6 @@ using FluentNHibernate.Conventions.AcceptanceCriteria;
 using FluentNHibernate.Conventions.Helpers;
 using FluentNHibernate.Conventions.Instances;
 using NHibernate;
-using System.Data.SqlClient;
 
 namespace DDDCourse.Logic
 {

@@ -10,6 +10,7 @@ using FluentAssertions;
 
 // Isn't this getting very confusing when multiple of these are used !?
 using static DDDCourse.Logic.Money;
+using static DDDCourse.Logic.Snack;
 
 namespace DDDSpecs.Tests
 {
@@ -51,7 +52,7 @@ namespace DDDSpecs.Tests
         public void BuySnack_trades_inserted_money_for_a_snack()
         {
             var snackMachine = new SnackMachine();
-            snackMachine.LoadSnacks(1, new SnackPile(new Snack("Coca cola"), 10, 1m));
+            snackMachine.LoadSnacks(1, new SnackPile(Chocolate, 10, 1m));
             snackMachine.InsertMoney(Dollar);
 
             snackMachine.BuySnack(1);
@@ -75,7 +76,7 @@ namespace DDDSpecs.Tests
         public void Cannot_make_purchase_if_not_enough_money_inserted()
         {
             var snackMachine = new SnackMachine();
-            snackMachine.LoadSnacks(1, new SnackPile(new Snack("Coca cola"), 1, 2m));
+            snackMachine.LoadSnacks(1, new SnackPile(Gum, 1, 2m));
             snackMachine.InsertMoney(Dollar);
 
             Action action = () => snackMachine.BuySnack(1);
@@ -103,7 +104,7 @@ namespace DDDSpecs.Tests
         public void After_purchase_change_is_returned()
         {
             var snackMachine = new SnackMachine();
-            snackMachine.LoadSnacks(1, new SnackPile(new Snack("Smarties"), 1, 0.5m));
+            snackMachine.LoadSnacks(1, new SnackPile(Chocolate, 1, 0.5m));
             snackMachine.LoadMoney(TenCent * 10);
 
             snackMachine.InsertMoney(Dollar);
@@ -117,7 +118,7 @@ namespace DDDSpecs.Tests
         public void Cannot_buy_snack_if_not_enough_change()
         {
             var snackMachine = new SnackMachine();
-            snackMachine.LoadSnacks(1, new SnackPile(new Snack("Smarties"), 1, 0.5m));
+            snackMachine.LoadSnacks(1, new SnackPile(Soda, 1, 0.5m));
             snackMachine.InsertMoney(Dollar);
 
             Action action = () => snackMachine.BuySnack(1);
