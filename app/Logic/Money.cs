@@ -48,7 +48,13 @@ namespace DDDCourse.Logic
             TwentyDollarCount = twentyDollarCount;
         }
 
-        internal Money Allocate(decimal amount)
+        public Money Allocate(decimal amount) {
+            if (!CanAllocate(amount)) throw new InvalidOperationException();
+
+            return AllocateCore(amount);
+        }
+
+        private Money AllocateCore(decimal amount)
         {
             int twentyDollarCount = Math.Min((int)(amount / 20), TwentyDollarCount);
             amount = amount - twentyDollarCount * 20;
@@ -74,6 +80,12 @@ namespace DDDCourse.Logic
                 oneDollarCount,
                 fiveDollarCount,
                 twentyDollarCount);
+        }
+
+        internal bool CanAllocate(decimal amount)
+        {
+            Money money = AllocateCore(amount);
+            return money.Amount == amount;
         }
 
         public static Money operator +(Money money1, Money money2)

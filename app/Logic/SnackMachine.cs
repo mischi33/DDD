@@ -42,20 +42,27 @@ namespace DDDCourse.Logic
 
         public virtual void BuySnack(int position)
         {
+            if (CanBuySnack(position) != string.Empty) throw new InvalidOperationException();
+
             Slot slot = GetSlot(position);
-            if (slot.SnackPile.Price > MoneyInTransaction) throw new InvalidOperationException();
 
             // New assignment because of immutability
             // But shouldn't SnackPile be an entity anyways?
             slot.SnackPile = slot.SnackPile.SubstractOne();
 
             Money change = MoneyInside.Allocate(MoneyInTransaction - slot.SnackPile.Price);
-
-            if (change.Amount < MoneyInTransaction - slot.SnackPile.Price) throw new InvalidOperationException();
-
             MoneyInside -= change;
-
             MoneyInTransaction = 0;
+        }
+
+        public virtual string CanBuySnack(int position)
+        {
+            SnackPile snackPile = GetSnackPile(position);
+            if (snackPile.Quantity == 0) return "The snack is sold out";
+            if (MoneyInTransaction < snackPile.Price) return "Not enough money";
+            // TODO check why this is not working
+            if (!MoneyInside.CanAllocate(MoneyInTransaction - snackPile.Price)) return "Not enough change";
+            return string.Empty;
         }
 
         public virtual void LoadSnacks(int position, SnackPile snackPile)
