@@ -1,5 +1,4 @@
-﻿using System;
-using DDDCourse.Logic.Common;
+﻿using DDDCourse.Logic.Common;
 using DDDCourse.Logic.Shared;
 using static DDDCourse.Logic.Shared.Money;
 
