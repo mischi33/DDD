@@ -1,21 +1,21 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using DDDCourse.Logic;
-using FluentNHibernate.Cfg;
-using FluentNHibernate.Cfg.Db;
-using FluentNHibernate.Conventions;
-using FluentNHibernate.Conventions.AcceptanceCriteria;
-using FluentNHibernate.Conventions.Helpers;
-using FluentNHibernate.Conventions.Instances;
+// using FluentNHibernate.Cfg;
+// using FluentNHibernate.Cfg.Db;
+// using FluentNHibernate.Conventions;
+// using FluentNHibernate.Conventions.AcceptanceCriteria;
+// using FluentNHibernate.Conventions.Helpers;
+// using FluentNHibernate.Conventions.Instances;
 using NHibernate;
 
 // Setup DB here and fetch snack machine
-Initer.init("@Server=.;Database=DDDDB;Trusted_Connection=true");
-SnackMachine snackMachine;
-using (ISession session = SessionFactory.OpenSession()) {
-    snackMachine = session.Get<SnackMachine>(1L);
-}
+// Initer.init("@Server=.;Database=DDDDB;Trusted_Connection=true");
+// SnackMachine snackMachine;
+// using (ISession session = SessionFactory.OpenSession()) {
+//     snackMachine = session.Get<SnackMachine>(1L);
+// }
 
-// SnackMachine snackMachine = new SnackMachine();
+SnackMachine snackMachine = new SnackMachine();
 
 Console.WriteLine("** Hello, this is snackmachine. I offer the following snacks:");
 Console.WriteLine("** 1 Chocolate: 1.75$");
@@ -79,12 +79,12 @@ while (true)
         {
             if (snackMachine.MoneyInTransaction.Amount > 1.75m)
             {
-                using (ISession session = SessionFactory.OpenSession())
-                using (ITransaction transaction = session.BeginTransaction())
-                {
-                    session.SaveOrUpdate(snackMachine);
-                    transaction.Commit();
-                }
+                // using (ISession session = SessionFactory.OpenSession())
+                // using (ITransaction transaction = session.BeginTransaction())
+                // {
+                //     session.SaveOrUpdate(snackMachine);
+                //     transaction.Commit();
+                // }
                 selectedSnack = "Chocolate";
                 break;
             }
@@ -96,12 +96,12 @@ while (true)
         {
             if (snackMachine.MoneyInTransaction.Amount > 2.79m)
             {
-                using (ISession session = SessionFactory.OpenSession())
-                using (ITransaction transaction = session.BeginTransaction())
-                {
-                    session.SaveOrUpdate(snackMachine);
-                    transaction.Commit();
-                }
+                // using (ISession session = SessionFactory.OpenSession())
+                // using (ITransaction transaction = session.BeginTransaction())
+                // {
+                //     session.SaveOrUpdate(snackMachine);
+                //     transaction.Commit();
+                // }
                 selectedSnack = "Fanta";
                 break;
             }
@@ -113,12 +113,12 @@ while (true)
         {
             if (snackMachine.MoneyInTransaction.Amount > 1.85m)
             {
-                using (ISession session = SessionFactory.OpenSession())
-                using (ITransaction transaction = session.BeginTransaction())
-                {
-                    session.SaveOrUpdate(snackMachine);
-                    transaction.Commit();
-                }
+                // using (ISession session = SessionFactory.OpenSession())
+                // using (ITransaction transaction = session.BeginTransaction())
+                // {
+                //     session.SaveOrUpdate(snackMachine);
+                //     transaction.Commit();
+                // }
                 selectedSnack = "Smarties";
                 break;
             }

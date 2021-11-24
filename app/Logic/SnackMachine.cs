@@ -3,8 +3,24 @@ namespace DDDCourse.Logic
 {
     public class SnackMachine : Entity
     {
-        public virtual Money MoneyInside { get; protected set; } = None;
-        public virtual Money MoneyInTransaction { get; protected set; } = None;
+        // virtual is only required to make NHibernate work with this entity
+        // setter is protected and not private here because NHibernate would need this
+        public virtual Money MoneyInside { get; protected set; }
+        public virtual Money MoneyInTransaction { get; protected set; }
+        
+        // NHibernate requires IList here
+        public virtual IList<Slot> Slots { get; protected set; }
+
+        public SnackMachine() {
+            MoneyInside = None;
+            MoneyInTransaction = None;
+
+            Slots = new List<Slot> {
+                new Slot(this, 1, null, 0, 0),
+                new Slot(this, 2, null, 0, 0),
+                new Slot(this, 3, null, 0, 0),
+            };
+        }
 
         public virtual void InsertMoney(Money money)
         {
@@ -22,10 +38,20 @@ namespace DDDCourse.Logic
             MoneyInTransaction = None;
         }
 
-        public virtual void BuySnack()
+        public virtual void BuySnack(int position)
         {
+            Slot slot = Slots.Single(x => x.Position == position);
+            slot.Quantity--;
+
             MoneyInside += MoneyInTransaction;
             MoneyInTransaction = None;
+        }
+
+        public virtual void LoadSnacks(int position, Snack snack, int quantity, decimal price) {
+            Slot slot = Slots.Single(x => x.Position == position);
+            slot.Snack = snack;
+            slot.Quantity = quantity;
+            slot.Price = price;
         }
     }
 }

@@ -28,6 +28,7 @@ namespace DDDCourse.Logic
             }
         }
 
+        // empty constructor required for NHibernate to work
         public Money() { }
 
         public Money(int oneCentCount, int tenCentCount, int quarterCount, int oneDollarCount, int fiveDollarCount, int twentyDollarCount)
