@@ -7,25 +7,26 @@ public class Ui
     public static SnackMachine SnackMachine { get; } = new SnackMachine();
     public static void Main(string[] args)
     {
-        SnackMachine.LoadMoney(Money.Dollar * 20);
+        SnackMachine.LoadMoney(new Money(100, 100, 50, 15, 13, 5));
         SnackMachine.LoadSnacks(1, new SnackPile(Snack.Chocolate, 10, 1.75m));
         SnackMachine.LoadSnacks(2, new SnackPile(Snack.Soda, 6, 2.50m));
         SnackMachine.LoadSnacks(3, new SnackPile(Snack.Gum, 15, 0.75m));
 
-        Console.WriteLine("** Hello, this is snackmachine.");
-        Console.WriteLine("** You can insert either 1, 10 or a quarter cents or one, five or twenty dollar bills");
-        Console.WriteLine("** Type 'cent!1', 'cent!10' or 'cent!25' to insert coins");
-        Console.WriteLine("** Type 'dollar!1', 'dollar!5' or 'dollar!20' to insert bills");
-        Console.WriteLine("** Type 'buy![snacknumber]' to buy a snack");
-        Console.WriteLine("** Type 'machine!return' to return your inserted money.");
-        Console.WriteLine("** Type 'machine!snacks' for displaying the available snacks.");
-        Console.WriteLine("** Type 'support!change' for calling support that loads machine with more change.");
+        Console.WriteLine("*** Hello, this is snackmachine.");
+        Console.WriteLine("*** You can insert either 1, 10 or a quarter cents or one, five or twenty dollar bills");
+        Console.WriteLine("*** Type 'cent!1', 'cent!10' or 'cent!25' to insert coins");
+        Console.WriteLine("*** Type 'dollar!1', 'dollar!5' or 'dollar!20' to insert bills");
+        Console.WriteLine("*** Type 'buy![snacknumber]' to buy a snack");
+        Console.WriteLine("*** Type 'machine!return' to return your inserted money.");
+        Console.WriteLine("*** Type 'machine!snacks' for displaying the available snacks.");
+        Console.WriteLine("*** Type 'machine!money' to show how much money in total is contained in the machine.");
+        Console.WriteLine("*** Type 'machine!transaction' to show how much money you have inserted.");
+        Console.WriteLine("*** Type 'support!change' for calling support that loads machine with more change.");
         ShowSnacks();
 
-        var selectedSnack = "";
         while (true)
         {
-            Console.WriteLine("** Please type a command");
+            Console.WriteLine("*** Please type a command");
 
             var input = Console.ReadLine().Split("!");
 
@@ -35,11 +36,11 @@ public class Ui
                 if (amount == 1 || amount == 10 || amount == 25)
                 {
                     SnackMachine.InsertMoney(amount == 1 ? Money.Cent : amount == 10 ? Money.TenCent : Money.Quarter);
-                    Console.WriteLine($"** Your current total amount of money inserted is: {SnackMachine.MoneyInTransaction}");
+                    Console.WriteLine($"*** Your current total amount of money inserted is: {SnackMachine.MoneyInTransaction}");
                     continue;
                 }
 
-                Console.WriteLine("** You can only insert 1, 10 or a quarter cents");
+                Console.WriteLine("*** You can only insert 1, 10 or a quarter cents");
                 continue;
             }
 
@@ -49,11 +50,11 @@ public class Ui
                 if (amount == 1 || amount == 5 || amount == 20)
                 {
                     SnackMachine.InsertMoney(amount == 1 ? Money.Dollar : amount == 5 ? Money.FiveDollar : Money.TwentyDollar);
-                    Console.WriteLine($"** Your current total amount of money is: {SnackMachine.MoneyInTransaction}");
+                    Console.WriteLine($"*** Your current total amount of money inserted is: {SnackMachine.MoneyInTransaction}");
                     continue;
                 }
 
-                Console.WriteLine("** You can only insert 1, 5 or 10 dollar bills");
+                Console.WriteLine("*** You can only insert 1, 5 or 10 dollar bills");
                 continue;
             }
 
@@ -62,23 +63,31 @@ public class Ui
                 if (input[1] == "return")
                 {
                     SnackMachine.ReturnMoney();
-                    Console.WriteLine($"** Here is your money. Your current total amount of money is: {SnackMachine.MoneyInTransaction}.");
-                    Console.WriteLine("** Do you want to continue buying something or not? (Y/N)");
-                    string cont = Console.ReadLine();
-                    if (cont.ToUpper() == "Y") continue;
-                    if (cont.ToUpper() == "N") selectedSnack = "Nothing"; break;
+                    Console.WriteLine($"*** Here is your money. Your current total amount of money is: {SnackMachine.MoneyInTransaction}$.");
+                    if (ContinueBuying()) continue;
+                    break;
                 }
 
                 if (input[1] == "snacks")
                 {
                     ShowSnacks();
                 }
+
+                if (input[1] == "money")
+                {
+                    Console.WriteLine($"*** {SnackMachine.MoneyInside.Amount}$ currently inside the snack machine.");
+                }
+
+                if (input[1] == "transaction")
+                {
+                    Console.WriteLine($"*** You have inserted {SnackMachine.MoneyInTransaction}$ so far.");
+                }
             }
 
             if (input[0] == ("support") && input[1] == "change")
             {
                 SnackMachine.LoadMoney(Money.TwentyDollar);
-                Console.WriteLine($"** Thank you for contacting support. I've loaded the machine with some more money for change. Byeee");
+                Console.WriteLine($"*** Thank you for contacting support. I've loaded the machine with some more money for change. Byeee");
             }
 
             if (input[0].Contains("buy"))
@@ -89,7 +98,8 @@ public class Ui
                     string error = Buy(snackNumber);
                     if (error == string.Empty)
                     {
-                        selectedSnack = SnackMachine.GetSnackPile(snackNumber).Snack.Name;
+                        Console.WriteLine($"*** Thank you for buying {SnackMachine.GetSnackPile(snackNumber).Snack.Name.ToUpper()}.");
+                        if (ContinueBuying()) continue;
                         break;
                     }
                     else
@@ -101,7 +111,7 @@ public class Ui
                 }
             }
         }
-        Console.WriteLine($"** Thank you for buying {selectedSnack.ToUpper()}. See you!");
+        Console.WriteLine("Alrighty. See you!");
     }
 
 
@@ -113,12 +123,19 @@ public class Ui
         return error;
     }
 
+    public static bool ContinueBuying()
+    {
+        Console.WriteLine("*** Do you want to continue buying something or not? (Y/N)");
+        string cont = Console.ReadLine();
+        return cont.ToUpper() == "Y";
+    }
+
     public static void ShowSnacks()
     {
         Console.WriteLine("************** The following snacks are currently available **************");
-        Console.WriteLine($"** 1 {SnackMachine.GetSnackPile(1).Snack.Name}\tPrice: {SnackMachine.GetSnackPile(1).Price}$\t{SnackMachine.GetSnackPile(1).Quantity} pieces left");
-        Console.WriteLine($"** 2 {SnackMachine.GetSnackPile(2).Snack.Name}\tPrice: {SnackMachine.GetSnackPile(2).Price}$\t{SnackMachine.GetSnackPile(2).Quantity} pieces left");
-        Console.WriteLine($"** 3 {SnackMachine.GetSnackPile(3).Snack.Name}\tPrice: {SnackMachine.GetSnackPile(3).Price}$\t{SnackMachine.GetSnackPile(3).Quantity} pieces left");
+        Console.WriteLine($"*** 1 {SnackMachine.GetSnackPile(1).Snack.Name}\tPrice: {SnackMachine.GetSnackPile(1).Price}$\t{SnackMachine.GetSnackPile(1).Quantity} pieces left");
+        Console.WriteLine($"*** 2 {SnackMachine.GetSnackPile(2).Snack.Name}\tPrice: {SnackMachine.GetSnackPile(2).Price}$\t{SnackMachine.GetSnackPile(2).Quantity} pieces left");
+        Console.WriteLine($"*** 3 {SnackMachine.GetSnackPile(3).Snack.Name}\tPrice: {SnackMachine.GetSnackPile(3).Price}$\t{SnackMachine.GetSnackPile(3).Quantity} pieces left");
         Console.WriteLine("**************************************************************************");
     }
 }
