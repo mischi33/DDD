@@ -1,6 +1,6 @@
 namespace DDDCourse.Logic
 {
-    public class Snack : Entity
+    public class Snack : AggregateRoot
     {
         // virtual is only required to make NHibernate work with this entity
         // setter is protected and not private here because NHibernate would need this

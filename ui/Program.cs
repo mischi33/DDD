@@ -40,7 +40,7 @@ while (true)
         if (amount == 1 || amount == 10 || amount == 25)
         {
             snackMachine.InsertMoney(amount == 1 ? Money.Cent : amount == 10 ? Money.TenCent : Money.Quarter);
-            Console.WriteLine($"** Your current total amount of money is: {snackMachine.MoneyInTransaction.Amount}");
+            Console.WriteLine($"** Your current total amount of money is: {snackMachine.MoneyInTransaction}");
             continue;
         }
 
@@ -54,7 +54,7 @@ while (true)
         if (amount == 1 || amount == 5 || amount == 20)
         {
             snackMachine.InsertMoney(amount == 1 ? Money.Dollar : amount == 5 ? Money.FiveDollar : Money.TwentyDollar);
-            Console.WriteLine($"** Your current total amount of money is: {snackMachine.MoneyInTransaction.Amount}");
+            Console.WriteLine($"** Your current total amount of money is: {snackMachine.MoneyInTransaction}");
             continue;
         }
 
@@ -65,7 +65,7 @@ while (true)
     if (input[0] == ("return"))
     {
         snackMachine.ReturnMoney();
-        Console.WriteLine($"** Here is your money. Your current total amount of money is: {snackMachine.MoneyInTransaction.Amount}.");
+        Console.WriteLine($"** Here is your money. Your current total amount of money is: {snackMachine.MoneyInTransaction}.");
         Console.WriteLine("** Do you want to continue buying something or not? (Y/N)");
         string cont = Console.ReadLine();
         if (cont.ToUpper() == "Y") continue;
@@ -77,7 +77,7 @@ while (true)
         Int32 snackNumber = Int32.Parse(input[1]);
         if (snackNumber == 1)
         {
-            if (snackMachine.MoneyInTransaction.Amount > 1.75m)
+            if (snackMachine.MoneyInTransaction > 1.75m)
             {
                 // using (ISession session = SessionFactory.OpenSession())
                 // using (ITransaction transaction = session.BeginTransaction())
@@ -94,7 +94,7 @@ while (true)
 
         if (snackNumber == 2)
         {
-            if (snackMachine.MoneyInTransaction.Amount > 2.79m)
+            if (snackMachine.MoneyInTransaction > 2.79m)
             {
                 // using (ISession session = SessionFactory.OpenSession())
                 // using (ITransaction transaction = session.BeginTransaction())
@@ -111,7 +111,7 @@ while (true)
 
         if (snackNumber == 3)
         {
-            if (snackMachine.MoneyInTransaction.Amount > 1.85m)
+            if (snackMachine.MoneyInTransaction > 1.85m)
             {
                 // using (ISession session = SessionFactory.OpenSession())
                 // using (ITransaction transaction = session.BeginTransaction())
