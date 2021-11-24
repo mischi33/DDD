@@ -1,4 +1,6 @@
-namespace DDDCourse.Logic
+using DDDCourse.Logic.Common;
+
+namespace DDDCourse.Logic.Shared
 {
     public sealed class Money : ValueObject<Money>
     {

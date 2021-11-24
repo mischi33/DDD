@@ -1,6 +1,6 @@
 using NHibernate.Proxy;
 
-namespace DDDCourse.Logic
+namespace DDDCourse.Logic.Common
 {
     public abstract class Entity
     {

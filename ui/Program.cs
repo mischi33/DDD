@@ -1,5 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using DDDCourse.Logic;
+using DDDCourse.Logic.SnackMachine;
+using DDDCourse.Logic.Shared;
+
 public class Ui
 {
     public static SnackMachine SnackMachine { get; } = new SnackMachine();

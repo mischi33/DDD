@@ -1,4 +1,6 @@
-namespace DDDCourse.Logic
+using DDDCourse.Logic.Common;
+
+namespace DDDCourse.Logic.SnackMachine
 {
     public sealed class SnackPile : ValueObject<SnackPile>
     {

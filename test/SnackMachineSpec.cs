@@ -1,16 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using DDDCourse.Logic;
+using DDDCourse.Logic.SnackMachine;
 using Xunit;
 using FluentAssertions;
 
 // Isn't this getting very confusing when multiple of these are used !?
-using static DDDCourse.Logic.Money;
-using static DDDCourse.Logic.Snack;
+using static DDDCourse.Logic.Shared.Money;
+using static DDDCourse.Logic.SnackMachine.Snack;
 
 namespace DDDSpecs.Tests
 {

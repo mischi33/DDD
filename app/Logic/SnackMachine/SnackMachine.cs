@@ -1,5 +1,8 @@
-using static DDDCourse.Logic.Money;
-namespace DDDCourse.Logic
+using DDDCourse.Logic.Common;
+using DDDCourse.Logic.Shared;
+using static DDDCourse.Logic.Shared.Money;
+
+namespace DDDCourse.Logic.SnackMachine
 {
     public class SnackMachine : AggregateRoot
     {

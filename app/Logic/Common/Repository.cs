@@ -1,6 +1,7 @@
 using NHibernate;
+using DDDCourse.Logic.Utils;
 
-namespace DDDCourse.Logic {
+namespace DDDCourse.Logic.Common {
     public abstract class Repository<T> where T : AggregateRoot {
         public T GetById(long id) {
             using (ISession session = SessionFactory.OpenSession()) {
