@@ -1,18 +1,32 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using DDDCourse.Logic.SnackMachine;
+using DDDCourse.Logic.Atm;
 using DDDCourse.Logic.Shared;
 
 public class Ui
 {
     public static SnackMachine SnackMachine { get; } = new SnackMachine();
+    public static Atm Atm { get; } = new Atm();
     public static void Main(string[] args)
+    {
+        while (true)
+        {
+            Console.WriteLine("*** Choose machine: ATM (A) or Snack Machine (S).");
+            string machine = Console.ReadLine();
+
+            if (machine.ToUpper() == "S") ExecuteSnackMachine();
+            if (machine.ToUpper() == "A") ExecuteAtm();
+        }
+    }
+
+    public static void ExecuteSnackMachine()
     {
         SnackMachine.LoadMoney(new Money(100, 100, 50, 15, 13, 5));
         SnackMachine.LoadSnacks(1, new SnackPile(Snack.Chocolate, 10, 1.75m));
         SnackMachine.LoadSnacks(2, new SnackPile(Snack.Soda, 6, 2.50m));
         SnackMachine.LoadSnacks(3, new SnackPile(Snack.Gum, 15, 0.75m));
 
-        Console.WriteLine("*** Hello, this is snackmachine.");
+        Console.WriteLine("*** Hello, this is snack machine.");
         Console.WriteLine("*** You can insert either 1, 10 or a quarter cents or one, five or twenty dollar bills");
         Console.WriteLine("*** Type 'cent!1', 'cent!10' or 'cent!25' to insert coins");
         Console.WriteLine("*** Type 'dollar!1', 'dollar!5' or 'dollar!20' to insert bills");
@@ -100,10 +114,7 @@ public class Ui
                     {
                         Money change = Buy(snackNumber);
                         Console.WriteLine($"*** Thank you for buying {SnackMachine.GetSnackPile(snackNumber).Snack.Name.ToUpper()}.");
-                        if (change.Amount > 0)
-                        {
-                            ShowChange(change);
-                        }
+                        if (change.Amount > 0) ShowChange(change);
 
                         if (ContinueBuying()) continue;
                         break;
@@ -118,6 +129,42 @@ public class Ui
             }
         }
         Console.WriteLine("Alrighty. See you!");
+    }
+
+    public static void ExecuteAtm()
+    {
+        Atm.LoadMoney(new Money(200, 200, 200, 100, 300, 300));
+
+        Console.WriteLine("*** Hello, this is ATM.");
+        Console.WriteLine("*** Type 'take![amount]' to define the amount to withdraw.");
+        Console.WriteLine("*** Type 'machine!balance' to show total balance.");
+        Console.WriteLine("*** Type 'machine!charged' to show all withdrawal charged charged so far (withdrawals + fees).");
+        Console.WriteLine("*** Type 'machine!exit' to leave ATM.");
+
+        while (true)
+        {
+            string[] input = Console.ReadLine().Split("!");
+            if (input[0] == "take")
+            {
+                decimal amount = decimal.Parse(input[1]);
+
+                string error = Atm.CanTakeMoney(amount);
+                if (error == string.Empty)
+                {
+                    Atm.TakeMoney(amount);
+                    Console.WriteLine($"*** You have withdrawn {amount}$ from your account.");
+                    Console.WriteLine($"*** Money left: {Atm.MoneyInside.Amount}$");
+                    Console.WriteLine($"*** Money charged: {Atm.MoneyCharged}$");
+                }
+            }
+
+            if (input[0] == "machine")
+            {
+                if (input[1] == "balance") Console.WriteLine($"*** Current balance: {Atm.MoneyInside.Amount}$");
+                if (input[1] == "charged") Console.WriteLine($"*** Total money charged: {Atm.MoneyCharged}$");
+                if (input[1] == "exit") break;
+            }
+        }
     }
 
     public static string CanBuy(int snackPosition)
