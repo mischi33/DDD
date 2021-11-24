@@ -43,19 +43,22 @@ namespace DDDCourse.Logic.SnackMachine
             MoneyInTransaction = 0;
         }
 
-        public virtual void BuySnack(int position)
+        public virtual Money BuySnack(int position)
         {
             if (CanBuySnack(position) != string.Empty) throw new InvalidOperationException();
 
             Slot slot = GetSlot(position);
 
             // New assignment because of immutability
-            // But shouldn't SnackPile be an entity anyways?
+            // But why is SnackPile a ValueObject anyways?
             slot.SnackPile = slot.SnackPile.SubstractOne();
 
             Money change = MoneyInside.Allocate(MoneyInTransaction - slot.SnackPile.Price);
             MoneyInside -= change;
             MoneyInTransaction = 0;
+
+            // This is violating CQS, how should something like this be done?
+            return change;
         }
 
         public virtual string CanBuySnack(int position)

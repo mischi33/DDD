@@ -95,10 +95,16 @@ public class Ui
                 Int32 snackNumber = Int32.Parse(input[1]);
                 if (snackNumber == 1 || snackNumber == 2 || snackNumber == 3)
                 {
-                    string error = Buy(snackNumber);
+                    string error = CanBuy(snackNumber);
                     if (error == string.Empty)
                     {
+                        Money change = Buy(snackNumber);
                         Console.WriteLine($"*** Thank you for buying {SnackMachine.GetSnackPile(snackNumber).Snack.Name.ToUpper()}.");
+                        if (change.Amount > 0)
+                        {
+                            ShowChange(change);
+                        }
+
                         if (ContinueBuying()) continue;
                         break;
                     }
@@ -114,20 +120,32 @@ public class Ui
         Console.WriteLine("Alrighty. See you!");
     }
 
-
-    public static string Buy(int snackPosition)
+    public static string CanBuy(int snackPosition)
     {
-        string error = SnackMachine.CanBuySnack(snackPosition);
-        if (error == string.Empty) SnackMachine.BuySnack(snackPosition);
+        return SnackMachine.CanBuySnack(snackPosition);
+    }
 
-        return error;
+    public static Money Buy(int snackPosition)
+    {
+        return SnackMachine.BuySnack(snackPosition);
     }
 
     public static bool ContinueBuying()
     {
-        Console.WriteLine("*** Do you want to continue buying something or not? (Y/N)");
+        Console.WriteLine("*** Do you want to continue buying something? (Y/N)");
         string cont = Console.ReadLine();
         return cont.ToUpper() == "Y";
+    }
+
+    public static void ShowChange(Money change)
+    {
+        Console.WriteLine($"*** Your change in total is {change.Amount}$");
+        Console.WriteLine($"*** One cents: {change.OneCentCount} pieces");
+        Console.WriteLine($"*** Ten cents: {change.TenCentCount} pieces");
+        Console.WriteLine($"*** Quarter cents: {change.QuarterCount} pieces");
+        Console.WriteLine($"*** One dollar: {change.OneDollarCount} pieces");
+        Console.WriteLine($"*** Five dollar: {change.FiveDollarCount} pieces");
+        Console.WriteLine($"*** Twenty dollar: {change.TwentyDollarCount} pieces");
     }
 
     public static void ShowSnacks()
