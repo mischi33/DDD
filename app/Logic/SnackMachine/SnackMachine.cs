@@ -30,7 +30,6 @@ namespace DDDCourse.Logic.SnackMachines
         {
             Money[] coinsAndNotes = { Cent, TenCent, Quarter, Dollar, FiveDollar, TwentyDollar };
 
-            // Would this make more sense to be implemented as a method in Money? because value objects should contain most of the domain logic?
             if (!coinsAndNotes.Contains(money)) throw new InvalidOperationException();
 
             MoneyInTransaction += money.Amount;
@@ -51,7 +50,7 @@ namespace DDDCourse.Logic.SnackMachines
             Slot slot = GetSlot(position);
 
             // New assignment because of immutability
-            // But why is SnackPile a ValueObject anyways?
+            // Should't slot be a value object?
             slot.SnackPile = slot.SnackPile.SubstractOne();
 
             Money change = MoneyInside.Allocate(MoneyInTransaction - slot.SnackPile.Price);
@@ -67,7 +66,7 @@ namespace DDDCourse.Logic.SnackMachines
             SnackPile snackPile = GetSnackPile(position);
             if (snackPile.Quantity == 0) return "The snack is sold out";
             if (MoneyInTransaction < snackPile.Price) return "Not enough money";
-            // TODO check why this is not working
+
             if (!MoneyInside.CanAllocate(MoneyInTransaction - snackPile.Price)) return "Not enough change";
             return string.Empty;
         }
