@@ -1,4 +1,4 @@
-using System.Reflection;
+﻿using System.Reflection;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using FluentNHibernate.Conventions;
@@ -6,6 +6,7 @@ using FluentNHibernate.Conventions.AcceptanceCriteria;
 using FluentNHibernate.Conventions.Helpers;
 using FluentNHibernate.Conventions.Instances;
 using NHibernate;
+using NHibernate.Event;
 
 namespace DDDCourse.Logic.Utils
 {
@@ -36,20 +37,36 @@ namespace DDDCourse.Logic.Utils
                     .Conventions.Add<TableNameConvention>()
                     .Conventions.Add<HiLoConvention>()
                 );
+                // .ExposeConfiguration(x =>
+                // {
+                //     x.EventListeners.PostCommitUpdateEventListeners = 
+                //         new IPostUpdateEventListener[] { new EventListener() };
+                //     x.EventListeners.PostCommitInsertEventListeners = 
+                //         new IPostInsertEventListener[] { new EventListener() };
+                //     x.EventListeners.PostCommitDeleteEventListeners =
+                //         new IPostDeleteEventListener[] { new EventListener() };
+                //     x.EventListeners.PostCollectionUpdateEventListeners = 
+                //         new IPostCollectionUpdateEventListener[] { new EventListener() };
+                // }
+                // );
 
             return configuration.BuildSessionFactory();
         }
 
-        public class TableNameConvention : IClassConvention {
-            public void Apply(IClassInstance instance) {
+        public class TableNameConvention : IClassConvention
+        {
+            public void Apply(IClassInstance instance)
+            {
                 instance.Table("[dbo].[" + instance.EntityType.Name + "]");
             }
         }
 
-        public class HiLoConvention : IIdConvention {
-            public void Apply(IIdentityInstance instance) {
+        public class HiLoConvention : IIdConvention
+        {
+            public void Apply(IIdentityInstance instance)
+            {
                 instance.Column(instance.EntityType.Name + "ID");
-                instance.GeneratedBy.HiLo("[dbo].[Ids]", "NextHigh", "9", "EnitityName = '" + instance.EntityType.Name + "'");
+                instance.GeneratedBy.HiLo("[dbo].[Ids]", "NextHigh", "9", "EntityName = '" + instance.EntityType.Name + "'");
             }
         }
     }

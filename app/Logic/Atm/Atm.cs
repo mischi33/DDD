@@ -1,5 +1,6 @@
 ﻿using DDDCourse.Logic.Common;
 using DDDCourse.Logic.Shared;
+using DDDCourse.Logic.Utils;
 using static DDDCourse.Logic.Shared.Money;
 
 namespace DDDCourse.Logic.Atm
@@ -35,6 +36,11 @@ namespace DDDCourse.Logic.Atm
 
             decimal amountWithCommission = CaluculateAmountWithCommission(amount);
             MoneyCharged += amountWithCommission;
+            
+            AddDomainEvent(new BalanceChangedEvent(amountWithCommission));
+
+            // This is wrong, this should be performed automatically after DB update but since I did not setup the DB I need to dispatch the events manually
+            EventListener.DispatchEvents(this);
         }
 
         public virtual decimal CaluculateAmountWithCommission(decimal amount)

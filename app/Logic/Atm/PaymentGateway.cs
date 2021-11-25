@@ -1,4 +1,4 @@
-﻿namespace DddInPractice.Logic.Atm
+﻿namespace DDDCourse.Logic.Atm
 {
     public class PaymentGateway
     {
