@@ -1,7 +1,10 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using DDDCourse.Logic.SnackMachine;
 using DDDCourse.Logic.Atm;
+using DDDCourse.Logic.Management;
+using DDDCourse.Logic.Management.Db;
 using DDDCourse.Logic.Shared;
+using DDDCourse.Logic.Utils;
 
 public class Ui
 {
@@ -9,13 +12,15 @@ public class Ui
     public static Atm Atm { get; } = new Atm();
     public static void Main(string[] args)
     {
+        Initer.init("db connection string would go here");
         while (true)
         {
-            Console.WriteLine("*** Choose machine: ATM (A) or Snack Machine (S).");
+            Console.WriteLine("*** Choose machine: ATM (A) or Snack Machine (S) or Management Terminal (M).");
             string machine = Console.ReadLine();
 
             if (machine.ToUpper() == "S") ExecuteSnackMachine();
             if (machine.ToUpper() == "A") ExecuteAtm();
+            if (machine.ToUpper() == "M") ExecuteManagementTerminal();
         }
     }
 
@@ -137,12 +142,14 @@ public class Ui
 
         Console.WriteLine("*** Hello, this is ATM.");
         Console.WriteLine("*** Type 'take![amount]' to define the amount to withdraw.");
-        Console.WriteLine("*** Type 'machine!balance' to show total balance.");
-        Console.WriteLine("*** Type 'machine!charged' to show all withdrawal charged charged so far (withdrawals + fees).");
-        Console.WriteLine("*** Type 'machine!exit' to leave ATM.");
+        Console.WriteLine("*** Type 'atm!balance' to show total balance.");
+        Console.WriteLine("*** Type 'atm!charged' to show all withdrawal charged charged so far (withdrawals + fees).");
+        Console.WriteLine("*** Type 'atm!exit' to leave ATM.");
 
         while (true)
         {
+            Console.WriteLine("*** Please type a command");
+
             string[] input = Console.ReadLine().Split("!");
             if (input[0] == "take")
             {
@@ -158,12 +165,30 @@ public class Ui
                 }
             }
 
-            if (input[0] == "machine")
+            if (input[0] == "atm")
             {
                 if (input[1] == "balance") Console.WriteLine($"*** Current balance: {Atm.MoneyInside.Amount}$");
                 if (input[1] == "charged") Console.WriteLine($"*** Total money charged: {Atm.MoneyCharged}$");
                 if (input[1] == "exit") break;
             }
+        }
+    }
+
+    public static void ExecuteManagementTerminal()
+    {
+        HeadOffice headOffice = HeadOfficeInstance.Instance;
+
+        Console.WriteLine("*** Hello, this is your Management Terminal.");
+        Console.WriteLine("*** Type 'show!balance' to display the current balance.");
+        Console.WriteLine("*** Type 'terminal!exit' to leave Management Terminal.");
+
+        while (true)
+        {
+            Console.WriteLine("*** Please type a command");
+
+            string[] input = Console.ReadLine().Split("!");
+            if (input[1] == "balance") Console.WriteLine($"*** The current balance is: {headOffice.Balance}$");
+            if (input[1] == "exit") break;
         }
     }
 
