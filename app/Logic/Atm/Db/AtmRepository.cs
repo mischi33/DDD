@@ -1,6 +1,6 @@
 ﻿using DDDCourse.Logic.Common;
 
-namespace DDDCourse.Logic.Atm.Db
+namespace DDDCourse.Logic.Atms.Db
 {
     public class AtmRepository : Repository<Atm>
     {

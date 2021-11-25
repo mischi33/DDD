@@ -1,6 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using DDDCourse.Logic.SnackMachine;
-using DDDCourse.Logic.Atm;
+using DDDCourse.Logic.SnackMachines;
+using DDDCourse.Logic.Atms;
 using DDDCourse.Logic.Management;
 using DDDCourse.Logic.Management.Db;
 using DDDCourse.Logic.Shared;
@@ -180,15 +180,37 @@ public class Ui
 
         Console.WriteLine("*** Hello, this is your Management Terminal.");
         Console.WriteLine("*** Type 'show!balance' to display the current balance.");
+        Console.WriteLine("*** Type 'show!cash' to display the current balance.");
         Console.WriteLine("*** Type 'terminal!exit' to leave Management Terminal.");
+        Console.WriteLine("*** Type 'terminal!unload' to unload cash from the Snack Machine.");
+        Console.WriteLine("*** Type 'terminal!load' to load currently stored cash to ATM.");
 
         while (true)
         {
             Console.WriteLine("*** Please type a command");
 
             string[] input = Console.ReadLine().Split("!");
-            if (input[1] == "balance") Console.WriteLine($"*** The current balance is: {headOffice.Balance}$");
-            if (input[1] == "exit") break;
+
+            if (input[0] == "show")
+            {
+                if (input[1] == "balance") Console.WriteLine($"*** The current balance is at {headOffice.Balance}$");
+                if (input[1] == "cash") Console.WriteLine($"*** Current amount of cash is at {headOffice.Cash.Amount}$");
+            }
+
+            if (input[0] == "terminal")
+            {
+                if (input[1] == "unload")
+                {
+                    headOffice.UnloadCashFromSnackMachine(SnackMachine);
+                    Console.WriteLine($"*** Current amount of cash is at {headOffice.Cash.Amount}$");
+                }
+                if (input[1] == "unload")
+                {
+                    headOffice.LoadCashToAtm(Atm);
+                    Console.WriteLine($"*** Current amount of cash is now again at {headOffice.Cash.Amount}$");
+                }
+                if (input[1] == "exit") break;
+            }
         }
     }
 

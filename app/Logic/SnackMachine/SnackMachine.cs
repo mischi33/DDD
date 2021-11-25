@@ -2,7 +2,7 @@ using DDDCourse.Logic.Common;
 using DDDCourse.Logic.Shared;
 using static DDDCourse.Logic.Shared.Money;
 
-namespace DDDCourse.Logic.SnackMachine
+namespace DDDCourse.Logic.SnackMachines
 {
     public class SnackMachine : AggregateRoot
     {
@@ -10,6 +10,7 @@ namespace DDDCourse.Logic.SnackMachine
         // setter is protected and not private here because NHibernate would need this
         public virtual Money MoneyInside { get; protected set; }
         public virtual decimal MoneyInTransaction { get; protected set; }
+
         // NHibernate requires IList here
         protected virtual IList<Slot> Slots { get; set; }
 
@@ -90,6 +91,16 @@ namespace DDDCourse.Logic.SnackMachine
         public virtual void LoadMoney(Money money)
         {
             MoneyInside += money;
+        }
+
+        public Money UnloadMoney()
+        {
+            if (MoneyInTransaction > 0)
+                throw new InvalidOperationException();
+
+            Money money = MoneyInside;
+            MoneyInside = Money.None;
+            return money;
         }
     }
 }

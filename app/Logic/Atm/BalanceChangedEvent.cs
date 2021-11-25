@@ -1,6 +1,6 @@
 using DDDCourse.Logic.Common;
 
-namespace DDDCourse.Logic.Atm
+namespace DDDCourse.Logic.Atms
 {
     public class BalanceChangedEvent : IDomainEvent
     {

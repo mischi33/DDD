@@ -3,7 +3,7 @@ using DDDCourse.Logic.Shared;
 using DDDCourse.Logic.Utils;
 using static DDDCourse.Logic.Shared.Money;
 
-namespace DDDCourse.Logic.Atm
+namespace DDDCourse.Logic.Atms
 {
     public class Atm : AggregateRoot
     {

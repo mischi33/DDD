@@ -1,11 +1,11 @@
 using System;
-using DDDCourse.Logic.SnackMachine;
+using DDDCourse.Logic.SnackMachines;
 using Xunit;
 using FluentAssertions;
 
 // Isn't this getting very confusing when multiple of these are used !?
 using static DDDCourse.Logic.Shared.Money;
-using static DDDCourse.Logic.SnackMachine.Snack;
+using static DDDCourse.Logic.SnackMachines.Snack;
 
 namespace DDDSpecs.Tests
 {

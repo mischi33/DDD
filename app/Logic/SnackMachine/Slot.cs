@@ -1,6 +1,6 @@
 using DDDCourse.Logic.Common;
 
-namespace DDDCourse.Logic.SnackMachine
+namespace DDDCourse.Logic.SnackMachines
 {
     public class Slot : Entity
     {

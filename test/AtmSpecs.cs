@@ -1,7 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using Xunit;
-using DDDCourse.Logic.Atm;
+using DDDCourse.Logic.Atms;
 using DDDCourse.Logic.Utils;
 using static DDDCourse.Logic.Shared.Money;
 
